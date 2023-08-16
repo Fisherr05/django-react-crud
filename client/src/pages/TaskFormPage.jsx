@@ -1,7 +1,7 @@
 import {useForm} from "react-hook-form";
 import {createTask, deleteTask, getTask, updateTask} from "../api/tasks.api.js";
 import {useNavigate, useParams} from "react-router-dom";
-import {useEffect} from "react";
+import React, {useEffect} from "react";
 import {toast} from "react-hot-toast";
 
 export function TaskFormPage() {
@@ -53,36 +53,49 @@ export function TaskFormPage() {
     }, []);
 
     return (
-        <div>
+        <div className="max-w-xl mx-auto">
             <form onSubmit={onSubmit}>
                 <input type="text" placeholder="title" name="" id=""
                        {...register("title", {required: true})}
+                       className="bg-zinc-700 p-3 rounded-lg block w-full mb-3"
                 />
                 {errors.title &&
                     <span>Este campo es requerido</span>
                 }
                 <textarea rows="3" placeholder="description"
-                          {...register("description", {required: true})}></textarea>
+                          {...register("description", {required: true})}
+                          className="bg-zinc-700 p-3 rounded-lg block w-full mb-3"
+                ></textarea>
                 {errors.description &&
                     <span>Este campo es requerido</span>
                 }
-                <button>guardar</button>
+                <button className="bg-indigo-500 p-3 rounded-lg block w-full mt-3">
+                    guardar
+                </button>
             </form>
-            {params.id && (<button onClick={async () => {
-                const accepted = globalThis.confirm("¿Estás seguro?")
-                if (accepted) {
-                    await deleteTask(params.id)
-                    toast.success('Tarea eliminada', {
-                        position: "bottom-right",
-                        style: {
-                            background: "#101010",
-                            color: "#fff"
-                        }
-                    })
-                    navigate("/tasks")
-                }
-            }}
-            >borrar</button>)}
+            {params.id && (
+                <div className="flex justify-end">
+                    <button
+                        className="bg-red-500 p-3 rouded-lg w-48 mt-3"
+                        onClick={async () => {
+                            const accepted = globalThis.confirm("¿Estás seguro?")
+                            if (accepted) {
+                                await deleteTask(params.id)
+                                toast.success('Tarea eliminada', {
+                                    position: "bottom-right",
+                                    style: {
+                                        background: "#101010",
+                                        color: "#fff"
+                                    }
+                                })
+                                navigate("/tasks")
+                            }
+                        }}
+                    >
+                        borrar
+                    </button>
+                </div>
+            )}
         </div>
     )
 }
