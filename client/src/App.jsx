@@ -1,0 +1,22 @@
+import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom'
+import {TasksPage} from './pages/TasksPage.jsx'
+import {Navigation} from "./components/Navigation.jsx";
+import {TaskFormPage} from "./pages/TaskFormPage.jsx";
+import {Toaster} from "react-hot-toast";
+
+export default function App() {
+    return (
+        <BrowserRouter>
+            <div className="container mx-auto">
+                <Navigation/>
+                <Routes>
+                    <Route path="/" element={<Navigate to="/tasks"/>}/>
+                    <Route path="/tasks" element={<TasksPage/>}/>
+                    <Route path="/task-create" element={<TaskFormPage/>}/>
+                    <Route path="/tasks/:id" element={<TaskFormPage/>}/>
+                </Routes>
+                <Toaster/>
+            </div>
+        </BrowserRouter>
+    )
+}
